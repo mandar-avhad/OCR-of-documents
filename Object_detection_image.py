@@ -15,11 +15,10 @@ from utils import visualization_utils as vis_util
 MODEL_NAME = 'inference_graph'
 IMAGE_NAME = 'p1.jpg'
 
-# Grab path to current working directory
+# current working directory
 CWD_PATH = os.getcwd()
 
-# Path to frozen detection graph .pb file, which contains the model that is used
-# for object detection.
+# Path to frozen detection graph .pb file, which contains the model that is used for object detection.
 PATH_TO_CKPT = os.path.join(CWD_PATH,MODEL_NAME,'frozen_inference_graph.pb')
 
 # Path to label map file
