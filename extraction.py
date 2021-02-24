@@ -8,8 +8,7 @@ import PIL
 import csv
 import pandas as pd
 import os
-#from tickmark_detection import tick_detection as tick_detection
-#from doc_classifier import classifier
+
 
 image=cv2.imread("a7.jpg")
 def extract(image):
