@@ -1,5 +1,3 @@
-
-
 # Import packages
 import os
 import cv2
@@ -10,7 +8,6 @@ import pytesseract
 import PIL
 import pandas as pd
 
-# This is needed since the notebook is stored in the object_detection folder.
 sys.path.append("..")
 
 # Import utilites
@@ -21,11 +18,10 @@ from field_detection.utils import visualization_utils as vis_util
 MODEL_NAME = 'field_detection/inference_graph'
 #IMAGE_NAME = 'aug1_62.jpeg'
 
-# Grab path to current working directory
+# current working directory
 CWD_PATH = os.getcwd()
 
-# Path to frozen detection graph .pb file, which contains the model that is used
-# for object detection.
+# Path to frozen detection graph .pb file, which contains the model that is used for object detection.
 PATH_TO_CKPT = os.path.join(CWD_PATH,MODEL_NAME,'frozen_inference_graph.pb')
 
 # Path to label map file
@@ -42,9 +38,6 @@ def load_image_into_numpy_array(image):
     return np.array(image.getdata()).reshape((im_height, im_width, 3)).astype(np.uint8)
 
 # Load the label map.
-
-# Here we use internal utility functions, but anything that returns a
-# dictionary mapping integers to appropriate string labels would be fine
 label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
 #label_map = label_map_util.load_labelmap("training/labelmap.pbtxt")
 categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
@@ -61,17 +54,14 @@ with detection_graph.as_default():
 
     sess = tf.Session(graph=detection_graph)
 
-# Define input and output tensors (i.e. data) for the object detection classifier
+# Define input and output tensors for the object detection classifier
 def getFields(image):
     # Input tensor is the image
     image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
 
     # Output tensors are the detection boxes, scores, and classes
-    # Each box represents a part of the image where a particular object was detected
     detection_boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
 
-    # Each score represents level of confidence for each of the objects.
-    # The score is shown on the result image, together with the class label.
     detection_scores = detection_graph.get_tensor_by_name('detection_scores:0')
     detection_classes = detection_graph.get_tensor_by_name('detection_classes:0')
 
@@ -80,7 +70,7 @@ def getFields(image):
     
     image_expanded = np.expand_dims(image, axis=0)
 
-    # Perform the actual detection by running the model with the image as input
+   
     (boxes, scores, classes, num) = sess.run(
     [detection_boxes, detection_scores, detection_classes, num_detections],
     feed_dict={image_tensor: image_expanded})
@@ -90,7 +80,7 @@ def getFields(image):
     print(num[0])
 
     new_image=image.copy()
-# Draw the results of the detection (aka 'visulaize the results')
+# Draw the results of the detection
 
     vis_util.visualize_boxes_and_labels_on_image_array(
     image,
